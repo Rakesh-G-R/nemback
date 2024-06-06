@@ -140,7 +140,7 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
     });
     await newPDF.save();
 
-     res.send(`/uploads/${randomFileName}`);
+   res.download(filePath, randomFileName);
   } catch (err) {
     console.error('Error generating PDF:', err);
     res.status(500).json({ error: 'Failed to generate PDF' });
