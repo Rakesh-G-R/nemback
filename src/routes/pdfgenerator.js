@@ -122,9 +122,8 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
     }
 
     backPage.drawText('Back Cover Content', { x: margin, y: height - 100, size: 20, font: customFont });
-
     const pdfBytes = await pdfDoc.save();
-    const filePath = path.join(process.cwd(), 'uploads', 'output.pdf');
+    const filePath = path.join(process.cwd(), 'uploads', `output.pdf${Math.random()*10}`);
 
     fs.writeFileSync(filePath, pdfBytes);
 
@@ -138,7 +137,7 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
     });
     await newPDF.save();
 
-    res.send("/Evel-03/uploads/output.pdf");
+    res.send("uploads/output.pdf");
   } catch (err) {
     console.error('Error generating PDF:', err);
     res.status(500).json({ error: 'Failed to generate PDF' });
