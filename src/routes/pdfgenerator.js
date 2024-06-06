@@ -26,7 +26,7 @@ const __dirname = dirname(__filename);
 const fontPath = path.join(__dirname, '../../fonts/Roboto-Regular.ttf');
 const fontBytes = fs.readFileSync(fontPath);
 
-pdfRouter.use(express.static('uploads'));
+pdfRouter.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 
 pdfRouter.post('/', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'bimage', maxCount: 1 }, { name: 'inter', maxCount: 1 }]), async (req, res) => {
@@ -125,7 +125,8 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
 
     backPage.drawText('Back Cover Content', { x: margin, y: height - 100, size: 20, font: customFont });
     const pdfBytes = await pdfDoc.save();
-    const filePath = path.join(process.cwd(), 'uploads', `output.pdf${Math.random()*10}`);
+    const randomFileName = `output_${Math.random().toString(36).substr(2, 9)}.pdf`;
+    const filePath = path.join(process.cwd(), 'uploads', randomFileName);
 
     fs.writeFileSync(filePath, pdfBytes);
 
@@ -139,7 +140,7 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
     });
     await newPDF.save();
 
-    res.send("uploads/output.pdf");
+     res.send(`/uploads/${randomFileName}`);
   } catch (err) {
     console.error('Error generating PDF:', err);
     res.status(500).json({ error: 'Failed to generate PDF' });
