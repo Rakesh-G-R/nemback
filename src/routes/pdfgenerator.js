@@ -125,7 +125,7 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
 
     backPage.drawText('Back Cover Content', { x: margin, y: height - 100, size: 20, font: customFont });
     const pdfBytes = await pdfDoc.save();
-    const randomFileName = `output_${Math.random().toString(36).substr(2, 9)}.pdf`;
+    const randomFileName = `output_${Math.random()*10}.pdf`;
     const filePath = path.join(process.cwd(), 'uploads', randomFileName);
 
     fs.writeFileSync(filePath, pdfBytes);
@@ -140,7 +140,7 @@ frontPage.drawText(truncatedTitle, { x: titleX, y: height - 100, size: titleSize
     });
     await newPDF.save();
 
-   res.download(filePath, randomFileName);
+    res.send(`/uploads/${randomFileName}`);
   } catch (err) {
     console.error('Error generating PDF:', err);
     res.status(500).json({ error: 'Failed to generate PDF' });
