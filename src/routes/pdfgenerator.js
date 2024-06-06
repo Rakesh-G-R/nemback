@@ -26,6 +26,8 @@ const __dirname = dirname(__filename);
 const fontPath = path.join(__dirname, '../../fonts/Roboto-Regular.ttf');
 const fontBytes = fs.readFileSync(fontPath);
 
+app.use(express.static('uploads'));
+
 
 pdfRouter.post('/', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'bimage', maxCount: 1 }, { name: 'inter', maxCount: 1 }]), async (req, res) => {
   try {
